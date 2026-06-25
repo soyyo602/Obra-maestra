@@ -1,0 +1,17 @@
+const CACHE = 'obra-maestra-v1';
+const ARCHIVOS = [
+  '/',
+  '/index.html'
+];
+
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(ARCHIVOS))
+  );
+});
+
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(resp => resp || fetch(e.request))
+  );
+});
